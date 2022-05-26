@@ -16,7 +16,7 @@ public class mysqlconnector {
     Connection conn = null;
     public Connection conectar()
     {
-        String BD = "jdbc:mysql://localhost/proyectofinal";
+        String BD = "jdbc:mysql://localhost/proyecto";
         String Usuario = "root";
         String Password = "";
         try
