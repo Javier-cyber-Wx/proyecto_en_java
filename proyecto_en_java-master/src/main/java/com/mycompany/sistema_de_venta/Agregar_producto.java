@@ -52,18 +52,44 @@ public class Agregar_producto extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        txt_code.setBackground(new java.awt.Color(204, 204, 204));
+        txt_code.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
+
+        jLabel1.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel1.setText("Codigo");
 
+        jLabel2.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel2.setText("Producto");
 
+        cmb_uom.setBackground(new java.awt.Color(204, 204, 204));
+        cmb_uom.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         cmb_uom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "u", "lb", "kg", "q" }));
 
+        Precio.setBackground(new java.awt.Color(204, 204, 204));
+        Precio.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         Precio.setText("Precio");
 
+        txt_precio.setBackground(new java.awt.Color(204, 204, 204));
+        txt_precio.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
+
+        jLabel3.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel3.setText("Cantidad_disponible");
 
+        txt_cantidad_disponible.setBackground(new java.awt.Color(204, 204, 204));
+        txt_cantidad_disponible.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
+
+        jLabel4.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel4.setText("UOM");
 
+        jScrollPane1.setBackground(new java.awt.Color(204, 204, 204));
+        jScrollPane1.setForeground(new java.awt.Color(0, 51, 204));
+
+        Tabla_pro.setBackground(new java.awt.Color(204, 204, 204));
+        Tabla_pro.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         Tabla_pro.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -82,8 +108,12 @@ public class Agregar_producto extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(Tabla_pro);
 
+        cmb_producto_in.setBackground(new java.awt.Color(204, 204, 204));
+        cmb_producto_in.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         cmb_producto_in.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Maiz", "Frijol", "Carne de pollo", "Carne de res", " " }));
 
+        Guardar.setBackground(new java.awt.Color(204, 204, 204));
+        Guardar.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         Guardar.setText("Guardar Producto");
         Guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -91,6 +121,8 @@ public class Agregar_producto extends javax.swing.JFrame {
             }
         });
 
+        modificar.setBackground(new java.awt.Color(204, 204, 204));
+        modificar.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         modificar.setText("Modificar");
         modificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
