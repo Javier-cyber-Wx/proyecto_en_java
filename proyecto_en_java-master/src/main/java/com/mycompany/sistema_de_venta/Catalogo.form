@@ -24,18 +24,18 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="173" max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" pref="271" max="-2" attributes="0"/>
-              <EmptySpace pref="185" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="131" max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" pref="328" max="-2" attributes="0"/>
+              <EmptySpace pref="170" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" pref="32" max="-2" attributes="0"/>
-              <EmptySpace pref="348" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="357" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -44,7 +44,7 @@
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Arial" size="18" style="0"/>
+          <Font name="Segoe UI Semibold" size="24" style="2"/>
         </Property>
         <Property name="text" type="java.lang.String" value="PRODUCTOS EN EXISTENCIA "/>
       </Properties>

@@ -74,6 +74,8 @@ public class Sistema_venta extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        AddActulizar.setBackground(new java.awt.Color(204, 204, 204));
+        AddActulizar.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         AddActulizar.setText("Agregar/Actualizar");
         AddActulizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,8 +83,12 @@ public class Sistema_venta extends javax.swing.JFrame {
             }
         });
 
+        Eliminar.setBackground(new java.awt.Color(204, 204, 204));
+        Eliminar.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         Eliminar.setText("Eliminar");
 
+        Nuevo.setBackground(new java.awt.Color(204, 204, 204));
+        Nuevo.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         Nuevo.setText("Nuevo");
         Nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,50 +96,120 @@ public class Sistema_venta extends javax.swing.JFrame {
             }
         });
 
+        Ocultar1.setBackground(new java.awt.Color(204, 204, 204));
+        Ocultar1.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         Ocultar1.setText("Ocultar");
+        Ocultar1.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
         Ocultar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Ocultar1ActionPerformed(evt);
             }
         });
 
+        jLabel1.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel1.setText("Producto");
 
+        jLabel2.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel2.setText("Código:");
 
-        Producto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Maiz", "Frijol", "Carne de pollo", "Carne de res", " " }));
+        Code.setBackground(new java.awt.Color(204, 204, 204));
+        Code.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
+        Code.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
 
+        Producto.setBackground(new java.awt.Color(204, 204, 204));
+        Producto.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
+        Producto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Maiz", "Frijol", "Carne de pollo", "Carne de res", " " }));
+        Producto.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
+
+        Catálogo.setBackground(new java.awt.Color(204, 204, 204));
+        Catálogo.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         Catálogo.setText("Catálogo");
+        Catálogo.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
         Catálogo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CatálogoActionPerformed(evt);
             }
         });
 
+        jLabel3.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel3.setText("UOM");
 
+        jComboBox1.setBackground(new java.awt.Color(204, 204, 204));
+        jComboBox1.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "U", "Lb", "Kg", "qq" }));
+        jComboBox1.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
 
+        jLabel4.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel4.setText("Cantidad");
 
+        Cantidad.setBackground(new java.awt.Color(204, 204, 204));
+        Cantidad.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
+        Cantidad.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
+
+        jLabel5.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel5.setText("Precio");
 
+        Precio.setBackground(new java.awt.Color(204, 204, 204));
+        Precio.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
+        Precio.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
+
+        jLabel6.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel6.setText("Monto");
 
+        Monto.setBackground(new java.awt.Color(204, 204, 204));
+        Monto.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
+        Monto.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
+
+        jLabel7.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel7.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel7.setText("Cliente");
 
+        jLabel8.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel8.setText("Num de contacto");
 
+        NumContacto.setBackground(new java.awt.Color(204, 204, 204));
+        NumContacto.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
+        NumContacto.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
+
+        Cliente.setBackground(new java.awt.Color(204, 204, 204));
+        Cliente.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
+        Cliente.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
+
+        jLabel9.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel9.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel9.setText("Comentario");
         jLabel9.setToolTipText("comentario");
 
+        Cometario.setBackground(new java.awt.Color(204, 204, 204));
+        Cometario.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
+        Cometario.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
+
+        Eliminar1.setBackground(new java.awt.Color(204, 204, 204));
+        Eliminar1.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         Eliminar1.setText("Guardar");
+        Eliminar1.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
 
+        Eliminar2.setBackground(new java.awt.Color(204, 204, 204));
+        Eliminar2.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         Eliminar2.setText("Cancelar");
+        Eliminar2.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
 
+        jComboBox2.setBackground(new java.awt.Color(204, 204, 204));
+        jComboBox2.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox2.setToolTipText("");
+        jComboBox2.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
 
+        jScrollPane1.setBackground(new java.awt.Color(204, 204, 204));
+
+        TablaBD.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
         TablaBD.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -147,12 +223,32 @@ public class Sistema_venta extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(TablaBD);
 
+        jLabel10.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel10.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel10.setText("Monto");
 
+        Total.setBackground(new java.awt.Color(204, 204, 204));
+        Total.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
+        Total.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
+
+        jLabel11.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel11.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel11.setText("Otros");
 
+        MontoFinal1.setBackground(new java.awt.Color(204, 204, 204));
+        MontoFinal1.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
+        MontoFinal1.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
+
+        jLabel12.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel12.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel12.setText("Total");
 
+        Otros.setBackground(new java.awt.Color(204, 204, 204));
+        Otros.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
+        Otros.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(153, 153, 153)));
+
+        jButton1.setBackground(new java.awt.Color(204, 204, 204));
+        jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jButton1.setText("Agregar Producto");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
