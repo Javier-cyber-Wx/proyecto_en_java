@@ -7,13 +7,11 @@ package com.mycompany.sistema_de_venta;
 import Conexiones.mysqlconnector;
 import Modelos.Productos;
 import java.awt.HeadlessException;
-import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -35,8 +33,7 @@ public class Agregar_producto extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txt_code = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         cmb_uom = new javax.swing.JComboBox<>();
         Precio = new javax.swing.JLabel();
@@ -49,56 +46,32 @@ public class Agregar_producto extends javax.swing.JFrame {
         cmb_producto_in = new javax.swing.JComboBox<>();
         Guardar = new javax.swing.JButton();
         modificar = new javax.swing.JButton();
+        Limpiar = new javax.swing.JButton();
+        Elimina = new javax.swing.JButton();
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        txt_code.setBackground(new java.awt.Color(204, 204, 204));
-        txt_code.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
-
-        jLabel1.setBackground(new java.awt.Color(204, 204, 204));
-        jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
-        jLabel1.setText("Codigo");
-
-        jLabel2.setBackground(new java.awt.Color(204, 204, 204));
-        jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel2.setText("Producto");
 
-        cmb_uom.setBackground(new java.awt.Color(204, 204, 204));
-        cmb_uom.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
-        cmb_uom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "u", "lb", "kg", "q" }));
+        cmb_uom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "U", "Lb", "Kg", "qq" }));
 
-        Precio.setBackground(new java.awt.Color(204, 204, 204));
-        Precio.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         Precio.setText("Precio");
 
-        txt_precio.setBackground(new java.awt.Color(204, 204, 204));
-        txt_precio.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
-
-        jLabel3.setBackground(new java.awt.Color(204, 204, 204));
-        jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel3.setText("Cantidad_disponible");
 
-        txt_cantidad_disponible.setBackground(new java.awt.Color(204, 204, 204));
-        txt_cantidad_disponible.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
-
-        jLabel4.setBackground(new java.awt.Color(204, 204, 204));
-        jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         jLabel4.setText("UOM");
 
-        jScrollPane1.setBackground(new java.awt.Color(204, 204, 204));
-        jScrollPane1.setForeground(new java.awt.Color(0, 51, 204));
-
-        Tabla_pro.setBackground(new java.awt.Color(204, 204, 204));
-        Tabla_pro.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         Tabla_pro.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "codigo", "producto", "precio", "cantidad_disponible", "uom"
+
             }
         ));
         Tabla_pro.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -108,12 +81,8 @@ public class Agregar_producto extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(Tabla_pro);
 
-        cmb_producto_in.setBackground(new java.awt.Color(204, 204, 204));
-        cmb_producto_in.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         cmb_producto_in.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Maiz", "Frijol", "Carne de pollo", "Carne de res", " " }));
 
-        Guardar.setBackground(new java.awt.Color(204, 204, 204));
-        Guardar.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         Guardar.setText("Guardar Producto");
         Guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,12 +90,24 @@ public class Agregar_producto extends javax.swing.JFrame {
             }
         });
 
-        modificar.setBackground(new java.awt.Color(204, 204, 204));
-        modificar.setFont(new java.awt.Font("Segoe UI Semibold", 2, 12)); // NOI18N
         modificar.setText("Modificar");
         modificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 modificarActionPerformed(evt);
+            }
+        });
+
+        Limpiar.setText("Limpiar");
+        Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LimpiarActionPerformed(evt);
+            }
+        });
+
+        Elimina.setText("Eliminar");
+        Elimina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminaActionPerformed(evt);
             }
         });
 
@@ -135,50 +116,48 @@ public class Agregar_producto extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addGap(12, 12, 12)
-                                    .addComponent(txt_code, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(Precio)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txt_precio, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(4, 4, 4)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_cantidad_disponible, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cmb_producto_in, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cmb_uom, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
+                        .addComponent(modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(Elimina, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt_cantidad_disponible, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(32, 32, 32)
+                                .addComponent(cmb_uom, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(Precio))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_precio, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmb_producto_in, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(28, 28, 28)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_code, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(23, 23, 23)
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(cmb_producto_in, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -186,7 +165,7 @@ public class Agregar_producto extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Precio)
                             .addComponent(txt_precio, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(13, 13, 13)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_cantidad_disponible, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -195,35 +174,55 @@ public class Agregar_producto extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addComponent(cmb_uom, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(185, Short.MAX_VALUE))
+                            .addComponent(Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Elimina, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void Limpiar()
+    {
+        txt_precio.setText("");
+        txt_cantidad_disponible.setText("");
+    }
+    private void EliminarProducto()
+    {
+        try
+        {
+            int fila = Tabla_pro.getSelectedRow();
+            String Codigo = Tabla_pro.getValueAt(fila, 0).toString();
+            String delete = "DELETE FROM `productos_disponibles` WHERE Codigo = ?";
+            PreparedStatement pst = conexion.prepareStatement(delete);
+            pst.setString(1, Codigo);
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Eliminado Exitosamente");
+        }catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null, "Error de Eliminado");
+        }
+    }
     private void GuardarProducto()
     {
          try
         {
             Productos NuevoProducto = new Productos();
-            NuevoProducto.setCodigo(Integer.parseInt(txt_code.getText()));
             NuevoProducto.setProducto(cmb_producto_in.getSelectedItem().toString());
             NuevoProducto.setPrecio(Double.parseDouble(txt_precio.getText()));
             NuevoProducto.setCantidad_disponible(Integer.parseInt(txt_cantidad_disponible.getText()));
             NuevoProducto.setUom(cmb_uom.getSelectedItem().toString());
             
-            String sql_NuevoProducto = "INSERT INTO `productos_disponibles`(`Codigo`, `Productos`, `Precio`, `Cantidad_disponible`, `UOM`) VALUES (?,?,?,?,?)";
+            String sql_NuevoProducto = "INSERT INTO `productos_disponibles`(`Productos`, `Precio`, `Cantidad_disponible`, `UOM`) VALUES (?,?,?,?)";
             PreparedStatement  pst = conexion.prepareStatement(sql_NuevoProducto);
-            pst.setInt(1, NuevoProducto.getCodigo());
-            pst.setString(2, NuevoProducto.getProducto());
-            pst.setDouble(3, NuevoProducto.getPrecio());
-            pst.setInt(4, NuevoProducto.getCantidad_disponible());
-            pst.setString(5, NuevoProducto.getUom());
+            pst.setString(1, NuevoProducto.getProducto());
+            pst.setDouble(2, NuevoProducto.getPrecio());
+            pst.setInt(3, NuevoProducto.getCantidad_disponible());
+            pst.setString(4, NuevoProducto.getUom());
             
             pst.execute();
             JOptionPane.showMessageDialog(null, "Guardado");
@@ -233,16 +232,44 @@ public class Agregar_producto extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "error al guardar: "+e);
         }
     }
+    
+    private void Modificar()
+    {
+        try
+        {
+            Productos NuevoProducto = new Productos();
+            NuevoProducto.setProducto(cmb_producto_in.getSelectedItem().toString());
+            NuevoProducto.setPrecio(Double.parseDouble(txt_precio.getText()));
+            NuevoProducto.setCantidad_disponible(Integer.parseInt(txt_cantidad_disponible.getText()));
+            NuevoProducto.setUom(cmb_uom.getSelectedItem().toString());
+           
+            int fila = Tabla_pro.getSelectedRow();
+            String codigo = Tabla_pro.getValueAt(fila, 0).toString();
+            String update = "UPDATE `productos_disponibles` SET " +"Productos = ?, " +"Precio = ?, " +"Cantidad_disponible = ?, " +"UOM = ? " +"WHERE Codigo = ?";
+                    PreparedStatement pst = conexion.prepareStatement(update);
+                    pst.setString(1, NuevoProducto.getProducto());
+                    pst.setDouble(2, NuevoProducto.getPrecio());
+                    pst.setInt   (3, NuevoProducto.getCantidad_disponible());
+                    pst.setString(4, NuevoProducto.getUom());
+                    pst.setString(5, codigo);
+                    pst.execute();
+            JOptionPane.showMessageDialog(null, "Modificacion exitosa");
+        }
+        catch(HeadlessException | NumberFormatException | SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, "Error en la modificacion: "+e);
+        }
+    }
     private void Mostrar()
     {
         String sql_mostrar = "SELECT *FROM productos_disponibles";
         Statement st;
         DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("codigo");
-        model.addColumn("producto");
-        model.addColumn("precio");
-        model.addColumn("cantidad_disponible");
-        model.addColumn("uom");
+        model.addColumn("Codigo");
+        model.addColumn("Producto");
+        model.addColumn("Precio");
+        model.addColumn("Cantidad_Disponible");
+        model.addColumn("UOM");
         Tabla_pro.setModel(model);
         String[] dato = new String[5];
         
@@ -272,49 +299,28 @@ public class Agregar_producto extends javax.swing.JFrame {
        
     }//GEN-LAST:event_GuardarActionPerformed
 
+
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
-        try//esta parte del codigo no funciona 
-        {
-            Productos NuevoProducto = new Productos();
-            NuevoProducto.setCodigo(Integer.parseInt(txt_code.getText()));
-            NuevoProducto.setProducto(cmb_producto_in.getSelectedItem().toString());
-            NuevoProducto.setPrecio(Double.parseDouble(txt_precio.getText()));
-            NuevoProducto.setCantidad_disponible(Integer.parseInt(txt_cantidad_disponible.getText()));
-            NuevoProducto.setUom(cmb_uom.getSelectedItem().toString());
-            int fila = Tabla_pro.getSelectedRow();
-            String Codigo = Tabla_pro.getValueAt(fila, 0).toString();
-            String insert = "UPDATE `productos_disponibles` SET `Productos`= ? ,`Precio`= ? ,`Cantidad_disponible`= ? ,`UOM`= ? WHERE 0";
-                    PreparedStatement pst = conexion.prepareStatement(insert);
-                    pst.setString(1, NuevoProducto.getProducto());
-                    pst.setDouble(2, NuevoProducto.getPrecio());
-                    pst.setInt(3, NuevoProducto.getCantidad_disponible());
-                    pst.setString(4, NuevoProducto.getUom());
-                    pst.setString(5, Codigo);
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "Modificacion exitosa");
-        }
-        catch(HeadlessException | NumberFormatException | SQLException e)
-        {
-            JOptionPane.showMessageDialog(null, "Error en la modificacion: "+e);
-        }
+        Modificar();
+        Mostrar();
     }//GEN-LAST:event_modificarActionPerformed
 
     private void Tabla_proMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tabla_proMouseClicked
-        int fila = Tabla_pro.getSelectedRow();
-        if(fila>=0)
-        {
-            txt_code.setText(Tabla_pro.getValueAt(fila, 0).toString());
-            cmb_producto_in.setToolTipText(Tabla_pro.getValueAt(fila, 1).toString());
-            txt_precio.setText(Tabla_pro.getValueAt(fila, 2).toString());
-            txt_cantidad_disponible.setText(Tabla_pro.getValueAt(fila, 3).toString());
-            cmb_uom.setToolTipText(Tabla_pro.getValueAt(fila, 4).toString());
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "Selecciona una fila");
-        }
-        
+        int fila = Tabla_pro.rowAtPoint(evt.getPoint());
+        cmb_producto_in.setToolTipText(Tabla_pro.getValueAt(fila, 1).toString());
+        txt_precio.setText(Tabla_pro.getValueAt(fila, 2).toString());
+        txt_cantidad_disponible.setText(Tabla_pro.getValueAt(fila, 3).toString());
+        cmb_producto_in.setToolTipText(Tabla_pro.getValueAt(fila, 4).toString());
     }//GEN-LAST:event_Tabla_proMouseClicked
+
+    private void LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LimpiarActionPerformed
+        Limpiar();
+    }//GEN-LAST:event_LimpiarActionPerformed
+
+    private void EliminaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminaActionPerformed
+        EliminarProducto();
+        Mostrar();
+    }//GEN-LAST:event_EliminaActionPerformed
     
     /**
      * @param args the command line arguments
@@ -352,19 +358,20 @@ public class Agregar_producto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Elimina;
     private javax.swing.JButton Guardar;
+    private javax.swing.JButton Limpiar;
     private javax.swing.JLabel Precio;
     private javax.swing.JTable Tabla_pro;
     private javax.swing.JComboBox<String> cmb_producto_in;
     private javax.swing.JComboBox<String> cmb_uom;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton modificar;
     private javax.swing.JTextField txt_cantidad_disponible;
-    private javax.swing.JTextField txt_code;
     private javax.swing.JTextField txt_precio;
     // End of variables declaration//GEN-END:variables
 }

@@ -23,7 +23,6 @@ public class mysqlconnector {
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(BD, Usuario, Password);
-            JOptionPane.showMessageDialog(null, "Conexione exitosa");
         }
         catch(Exception e)
         {
