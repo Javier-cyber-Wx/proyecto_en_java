@@ -66,7 +66,7 @@ public class VentasCreadas extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         VentasTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("VENTAS");
 
         jLabel1.setText("VENTAS CREADAS");
 

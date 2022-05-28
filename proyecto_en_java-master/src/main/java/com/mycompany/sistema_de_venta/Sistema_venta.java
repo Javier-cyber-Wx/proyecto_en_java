@@ -269,7 +269,7 @@ public class Sistema_venta extends javax.swing.JFrame {
         Buscar = new javax.swing.JButton();
         VentasCreadas = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("SISTEMA DE VANTAS");
 
         AddActulizar.setText("Agregar/Actualizar");
         AddActulizar.addActionListener(new java.awt.event.ActionListener() {
