@@ -4,17 +4,27 @@
  */
 package com.mycompany.sistema_de_venta;
 
+import Conexiones.mysqlconnector;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author franc
  */
 public class Catalogo extends javax.swing.JFrame {
-
+    mysqlconnector connector = new mysqlconnector();
+    Connection conexion = connector.conectar();
     /**
      * Creates new form Catalogo
      */
     public Catalogo() {
         initComponents();
+        VisualizarCatologo();
     }
 
     /**
@@ -27,27 +37,49 @@ public class Catalogo extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Table_pro_cat = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 2, 24)); // NOI18N
         jLabel1.setText("PRODUCTOS EN EXISTENCIA ");
 
+        Table_pro_cat.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Codigo", "Producto", "Precio", "Cantidad_disponible", "Uom"
+            }
+        ));
+        jScrollPane1.setViewportView(Table_pro_cat);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(131, 131, 131)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(170, Short.MAX_VALUE))
+                .addContainerGap(154, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(232, 232, 232))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(119, 119, 119))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel1)
-                .addContainerGap(357, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         pack();
@@ -56,6 +88,38 @@ public class Catalogo extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    private void VisualizarCatologo()
+    {
+        String sql_catologo = "SELECT * FROM `productos_disponibles` WHERE 1";
+        Statement st;
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Codigo");
+        model.addColumn("Producto");
+        model.addColumn("Precio");
+        model.addColumn("Cantidad_Disponible");
+        model.addColumn("UOM");
+        Table_pro_cat.setModel(model);
+        String[] dato = new String[5];
+        
+        try
+        {
+            st = conexion.createStatement();
+            ResultSet result = st.executeQuery(sql_catologo);
+            while(result.next())
+            {
+                dato[0] = result.getString(1);
+                dato[1] = result.getString(2);
+                dato[2] = result.getString(3);
+                dato[3] = result.getString(4);
+                dato[4] = result.getString(5);
+                model.addRow(dato);
+            }
+        }
+        catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -89,6 +153,8 @@ public class Catalogo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Table_pro_cat;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

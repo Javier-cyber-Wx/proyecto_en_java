@@ -6,6 +6,11 @@ package com.mycompany.sistema_de_venta;
 
 import Conexiones.mysqlconnector;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -406,10 +411,11 @@ public class Sistema_venta extends javax.swing.JFrame {
     private void Ocultar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Ocultar1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Ocultar1ActionPerformed
-
+    
     private void CatálogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CatálogoActionPerformed
         Catalogo cat = new Catalogo();
         cat.setVisible(true);
+        
     }//GEN-LAST:event_CatálogoActionPerformed
 
     private void AddActulizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActulizarActionPerformed
@@ -419,7 +425,6 @@ public class Sistema_venta extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Agregar_producto add = new Agregar_producto();
         add.setVisible(true);
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

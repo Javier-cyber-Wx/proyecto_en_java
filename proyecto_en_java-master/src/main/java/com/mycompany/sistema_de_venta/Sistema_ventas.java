@@ -72,8 +72,8 @@ public class Sistema_ventas extends javax.swing.JFrame {
         jLabel2.setText("Contraseña");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 110, -1, -1));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/sistema_de_venta/Captura de pantalla (515).png"))); // NOI18N
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\franc\\OneDrive\\Imágenes\\Captura de pantalla (515).png")); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 210, 230));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
