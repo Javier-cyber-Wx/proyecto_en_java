@@ -73,30 +73,26 @@ public class Sistema_venta extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "error al guardar: "+e);
         }
     }
-        private void EliminarVentas()
-        {
-            try
-            {
-                int fila = TablaBD.getSelectedRow();
-                String Codigo = TablaBD.getValueAt(fila, 0).toString();
-                String eliminar = "DELETE FROM `servicio` WHERE Codigo = ?";
-                PreparedStatement pst = conexion.prepareStatement(eliminar);
-                pst.setString(1, Codigo);
-                pst.execute();
-                JOptionPane.showMessageDialog(null, "Venta Eliminada");
-            }catch(Exception ex)
-            {
-                JOptionPane.showMessageDialog(null, "Error de Eliminar");
-            }
+       private void EliminarVentas() {
+        try {
+            int fila = TablaBD.getSelectedRow();
+            String Codigo = TablaBD.getValueAt(fila, 0).toString();
+            String eliminar = "DELETE FROM `servicio` WHERE Codigo = ?";
+            PreparedStatement pst = conexion.prepareStatement(eliminar);
+            pst.setString(1, Codigo);
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Venta Eliminada");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error de Eliminar");
         }
-        private void MostrarVentas()
-        {
-        try
-        {
-            
-            String[]titulos = {"Codigo", "Producto", "UOM", "Cantidad", "Precio"};
-            String[]registros = new String[5];
-            DefaultTableModel model = new DefaultTableModel(null,titulos);
+    }
+
+    private void MostrarVentas() {
+        try {
+
+            String[] titulos = {"Codigo", "Producto", "UOM", "Cantidad", "Precio"};
+            String[] registros = new String[5];
+            DefaultTableModel model = new DefaultTableModel(null, titulos);
             String sql_muestra = "SELECT * FROM `servicio`";
             Statement st = conexion.createStatement();
             ResultSet resulta = st.executeQuery(sql_muestra);
@@ -107,140 +103,131 @@ public class Sistema_venta extends javax.swing.JFrame {
                 registros[2] = resulta.getString(3);
                 registros[3] = resulta.getString(4);
                 registros[4] = resulta.getString(5);
-                
+
                 model.addRow(registros);
             }
             TablaBD.setModel(model);
-        }
-        catch(SQLException e)
-        {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        } 
-        private void BuscarDatos()
-        {
-            Connection con = null;
+    }
 
-            try {
-                con = connector.conectar();
-                ps = con.prepareStatement("Select * From productos_disponibles Where Codigo = ?");
-                ps.setString(1, Code.getText());
+    private void BuscarDatos() {
+        Connection con = null;
 
-                rs = ps.executeQuery();
-                if (rs.next()) {
-                    Producto.setSelectedItem(rs.getString("Productos"));
-                    UOM.setSelectedItem(rs.getString("UOM"));
-                    Precio.setText(rs.getString("Precio"));
+        try {
+            con = connector.conectar();
+            ps = con.prepareStatement("Select * From productos_disponibles Where Codigo = ?");
+            ps.setString(1, Code.getText());
 
-                } else {
-                    JOptionPane.showMessageDialog(null, "No hay nada");
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Producto.setSelectedItem(rs.getString("Productos"));
+                UOM.setSelectedItem(rs.getString("UOM"));
+                Precio.setText(rs.getString("Precio"));
 
-                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No hay nada");
 
-            } catch (Exception e) {
-                System.err.print(e);
             }
+
+        } catch (Exception e) {
+            System.err.print(e);
         }
-        private void Nuevo()
-        {
-            Code.setText("");
-            Producto.setSelectedItem("Selecccione");
-            UOM.setSelectedItem("Seleccione");
-            Cantidad.setText("");
-            Precio.setText("");
-            MontoFinal1.setText("");
-            Otros.setText("");
-            Total.setText("");
-            Cliente.setText("");
-            NumContacto.setText("");
-            Comentario.setText("");
-            TipoVenta.setSelectedItem("Cash");
-            
+    }
+
+    private void Nuevo() {
+        Code.setText("");
+        Producto.setSelectedItem("Selecccione");
+        UOM.setSelectedItem("Seleccione");
+        Cantidad.setText("");
+        Precio.setText("");
+        MontoFinal1.setText("");
+        Otros.setText("");
+        Total.setText("");
+        Cliente.setText("");
+        NumContacto.setText("");
+        Comentario.setText("");
+        TipoVenta.setSelectedItem("Cash");
+
+    }
+
+    private void CancelarVenta() {
+        try {
+            TablaBD.setModel(new DefaultTableModel());
+            String eliminar = "DELETE FROM `servicio`";
+            PreparedStatement pst = conexion.prepareStatement(eliminar);
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Venta Cancelada");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al Cancelar");
         }
-        private void CancelarVenta()
-        {
-           try
-           {
-               TablaBD.setModel(new DefaultTableModel());
-               String eliminar = "DELETE FROM `servicio`";
-               PreparedStatement pst = conexion.prepareStatement(eliminar);
-               pst.execute();
-               JOptionPane.showMessageDialog(null, "Venta Cancelada");
-           }catch(Exception ex)
-           {
-               JOptionPane.showMessageDialog(null, "Error al Cancelar");
-           }
-        }
-        private void DescontarCantidad()
-        {
-            Connection con = null;
-            try
-            {
-                //String Consulta = "SELECT * FROM `productos_disponibles` WHERE Producto = ? ";
-                //String Consulta = "SELECT `Cantidad_disponible` FROM `productos_disponibles`" +"WHERE Producto = ?";
-                //Statement st = conexion.createStatement();
-                //ResultSet result = st.executeQuery(Consulta);
-                /*PreparedStatement st = conexion.prepareStatement();
+    }
+
+    private void DescontarCantidad() {
+        Connection con = null;
+        try {
+            //String Consulta = "SELECT * FROM `productos_disponibles` WHERE Producto = ? ";
+            //String Consulta = "SELECT `Cantidad_disponible` FROM `productos_disponibles`" +"WHERE Producto = ?";
+            //Statement st = conexion.createStatement();
+            //ResultSet result = st.executeQuery(Consulta);
+            /*PreparedStatement st = conexion.prepareStatement();
                 st.setString(1, Producto.setSelectedItem());
                 int CantidadProducto = Integer.parseInt(.getString("Cantidad_disponible"));*/
-                con = connector.conectar();
-                ps = con.prepareStatement("Select * From productos_disponibles Where Productos = ?");
-                ps.setString(1, Producto.getSelectedItem().toString());
-                int CantidadProducto;
-                rs = ps.executeQuery();
-                if (rs.next()) {
-                    CantidadProducto = Integer.parseInt(rs.getString("Cantidad_disponible"));
-                    ventas NuevaVenta = new ventas();
-                    NuevaVenta.setCantidad(Integer.parseInt(Cantidad.getText()));
-                
-                    String Update = "UPDATE `produtos_disponibles` SET " + "`Cantidad_disponible` = ?" +"WHERE `Productos` = ?";
-                    PreparedStatement pst = conexion.prepareStatement(Update);
-                    pst.setString(1, Producto.getSelectedItem().toString());
-                    ResultSet result = pst.executeQuery();
-                    if(result.next())
-                    {
-                        pst.setInt(1, CantidadProducto - NuevaVenta.getCantidad());
-                        JOptionPane.showMessageDialog(null, CantidadProducto-NuevaVenta.getCantidad());
-                    }
-                    pst.execute();
-                } else {
-                    JOptionPane.showMessageDialog(null, "No hay nada");
+            con = connector.conectar();
+            ps = con.prepareStatement("Select * From productos_disponibles Where Productos = ?");
+            ps.setString(1, Producto.getSelectedItem().toString());
+            int CantidadProducto;
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                CantidadProducto = Integer.parseInt(rs.getString("Cantidad_disponible"));
+                ventas NuevaVenta = new ventas();
+                NuevaVenta.setCantidad(Integer.parseInt(Cantidad.getText()));
 
-                }  
-            }catch(Exception ex)
-            {
-                
-            }
-            
-        }
-        private void Venta()
-        {
-            try
-            {
-                Clientes NuevoCliente = new Clientes();
-                NuevoCliente.setCliente(Cliente.getText().toString());
-                NuevoCliente.setNumero(NumContacto.getText().toString());
-                NuevoCliente.setComentario(Comentario.getText().toString());
-                NuevoCliente.setForma_Pago(TipoVenta.getSelectedItem().toString());
-                NuevoCliente.setProducto(Producto.getSelectedItem().toString());
-
-                String Insert = "INSERT INTO `ventas` (`Cliente`, `Numero`, `Comentario`, `Forma_Pago`, `Producto`)" + "VALUES (?,?,?,?,?)";
-                PreparedStatement pst = conexion.prepareStatement(Insert);
-                pst.setString(1, NuevoCliente.getCliente());
-                pst.setString(2, NuevoCliente.getNumero());
-                pst.setString(3, NuevoCliente.getComentario());
-                pst.setString(4, NuevoCliente.getForma_Pago());
-                pst.setString(5, NuevoCliente.getProducto());
+                String Update = "UPDATE `produtos_disponibles` SET " + "`Cantidad_disponible` = ?" + "WHERE `Productos` = ?";
+                PreparedStatement pst = conexion.prepareStatement(Update);
+                pst.setString(1, Producto.getSelectedItem().toString());
+                ResultSet result = pst.executeQuery();
+                if (result.next()) {
+                    pst.setInt(1, CantidadProducto - NuevaVenta.getCantidad());
+                    JOptionPane.showMessageDialog(null, CantidadProducto - NuevaVenta.getCantidad());
+                }
                 pst.execute();
-                
-                DescontarCantidad();
-                JOptionPane.showMessageDialog(null, "Guardado Exitosamente");   
-                
-            }catch(Exception ex)
-            {
-                JOptionPane.showMessageDialog(null, "Erro de Guardado"); 
+            } else {
+                JOptionPane.showMessageDialog(null, "No hay nada");
+
             }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "No se establecio Conexion!!");
         }
+
+    }
+
+    private void Venta() {
+        try {
+            Clientes NuevoCliente = new Clientes();
+            NuevoCliente.setCliente(Cliente.getText().toString());
+            NuevoCliente.setNumero(NumContacto.getText().toString());
+            NuevoCliente.setComentario(Comentario.getText().toString());
+            NuevoCliente.setForma_Pago(TipoVenta.getSelectedItem().toString());
+            NuevoCliente.setProducto(Producto.getSelectedItem().toString());
+
+            String Insert = "INSERT INTO `ventas` (`Cliente`, `Numero`, `Comentario`, `Forma_Pago`, `Producto`)" + "VALUES (?,?,?,?,?)";
+            PreparedStatement pst = conexion.prepareStatement(Insert);
+            pst.setString(1, NuevoCliente.getCliente());
+            pst.setString(2, NuevoCliente.getNumero());
+            pst.setString(3, NuevoCliente.getComentario());
+            pst.setString(4, NuevoCliente.getForma_Pago());
+            pst.setString(5, NuevoCliente.getProducto());
+            pst.execute();
+
+            DescontarCantidad();
+            JOptionPane.showMessageDialog(null, "Guardado Exitosamente");
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro de Guardado");
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
