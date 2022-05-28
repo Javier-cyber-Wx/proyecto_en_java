@@ -35,7 +35,7 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES ('javier054622',20024622),('juan045599',2001045599);
+INSERT INTO `login` VALUES ('0000',0),('javier054622',20024622),('juan045599',2001045599);
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,7 +53,7 @@ CREATE TABLE `productos_disponibles` (
   `Cantidad_disponible` int(11) NOT NULL,
   `UOM` varchar(10) NOT NULL,
   PRIMARY KEY (`Codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +62,7 @@ CREATE TABLE `productos_disponibles` (
 
 LOCK TABLES `productos_disponibles` WRITE;
 /*!40000 ALTER TABLE `productos_disponibles` DISABLE KEYS */;
-INSERT INTO `productos_disponibles` VALUES (1,'Maiz',4.78,40,'q'),(3,'Carne de res',32.56,200,'lb');
+INSERT INTO `productos_disponibles` VALUES (1,'Maiz',4,40,'qq'),(3,'Carne de res',32,200,'Lb'),(4,'Carne de pollo',2,1,'Lb'),(5,'Frijol',2,1,'Lb');
 /*!40000 ALTER TABLE `productos_disponibles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -74,11 +74,12 @@ DROP TABLE IF EXISTS `servicio`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `servicio` (
-  `Codigo` int(50) NOT NULL,
+  `Codigo` int(11) NOT NULL,
   `Producto` varchar(30) NOT NULL,
   `UOM` varchar(50) NOT NULL,
   `Cantidad` int(11) NOT NULL,
-  `Precio` double NOT NULL
+  `Precio` double NOT NULL,
+  PRIMARY KEY (`Codigo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -88,6 +89,7 @@ CREATE TABLE `servicio` (
 
 LOCK TABLES `servicio` WRITE;
 /*!40000 ALTER TABLE `servicio` DISABLE KEYS */;
+INSERT INTO `servicio` VALUES (1,'Maiz','qq',2,4),(3,'Carne de res','Lb',1,32);
 /*!40000 ALTER TABLE `servicio` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -100,4 +102,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-26 20:37:59
+-- Dump completed on 2022-05-27 14:54:05

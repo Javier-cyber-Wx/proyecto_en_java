@@ -47,13 +47,13 @@ public class Catalogo extends javax.swing.JFrame {
 
         Table_pro_cat.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Codigo", "Producto", "Precio", "Cantidad_disponible", "Uom"
+
             }
         ));
         jScrollPane1.setViewportView(Table_pro_cat);

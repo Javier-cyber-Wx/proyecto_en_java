@@ -5,14 +5,17 @@
 package com.mycompany.sistema_de_venta;
 
 import Conexiones.mysqlconnector;
+import Modelos.Clientes;
 import Modelos.Productos;
 import Modelos.ventas;
+import com.mysql.cj.protocol.Resultset;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -31,6 +34,7 @@ public class Sistema_venta extends javax.swing.JFrame {
      */
     public Sistema_venta() {
         initComponents();
+        MostrarVentas();
     }
     
     
@@ -39,23 +43,31 @@ public class Sistema_venta extends javax.swing.JFrame {
          try
         {
             ventas NuevaVenta = new ventas();
+
+            NuevaVenta.setCodigo(Integer.parseInt(Code.getText()));
+            NuevaVenta.setProducto(Producto.getSelectedItem().toString());
+            NuevaVenta.setUOM(jComboBox1.getSelectedItem().toString());
+            NuevaVenta.setCantidad(Integer.parseInt(Cantidad.getText()));
+            NuevaVenta.setPrecio(Double.parseDouble(Precio.getText()));
             
-           NuevaVenta.setCodigo(Integer.parseInt(Code.getText()));
-           NuevaVenta.setProducto(Producto.getSelectedItem().toString());
-           NuevaVenta.setUOM(jComboBox1.getSelectedItem().toString());
-           NuevaVenta.setCantidad(Integer.parseInt(Cantidad.getText()));
-           NuevaVenta.setPrecio(Double.parseDouble(Precio.getText()));
-           
-   
- 
-            String sql_NuevoProducto = "INSERT INTO `servicio`(`Codigo`, `Producto`, `UOM`, `Cantidad`,`Precio`)"+ "VALUES (?,?,?,?,?)";
-            PreparedStatement  pst = conexion.prepareStatement(sql_NuevoProducto);
+            int monto = (int)(NuevaVenta.getCantidad() * NuevaVenta.getPrecio());
+            MontoFinal1.setText(Integer.toString(monto));
+            
+            String IVA = "12%";
+            Otros.setText(IVA);
+            
+            double TotalIva = (NuevaVenta.getPrecio() * 0.12);
+            double total = (NuevaVenta.getPrecio() + TotalIva);
+            Total.setText(Double.toString(total));
+
+            String sql_NuevoProducto = "INSERT INTO `servicio`(`Codigo`, `Producto`, `UOM`, `Cantidad`,`Precio`)" + "VALUES (?,?,?,?,?)";
+            PreparedStatement pst = conexion.prepareStatement(sql_NuevoProducto);
             pst.setInt(1, NuevaVenta.getCodigo());
             pst.setString(2, NuevaVenta.getProducto());
             pst.setString(3, NuevaVenta.getUOM());
             pst.setInt(4, NuevaVenta.getCantidad());
             pst.setDouble(5, NuevaVenta.getPrecio());
-            
+
             pst.execute();
             JOptionPane.showMessageDialog(null, "Guardado");
         }
@@ -64,16 +76,24 @@ public class Sistema_venta extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "error al guardar: "+e);
         }
     }
-    
-    
-    
-    
-    
-    
-        private void Mostra()
-    {
- 
-        
+        private void EliminarVentas()
+        {
+            try
+            {
+                int fila = TablaBD.getSelectedRow();
+                String Codigo = TablaBD.getValueAt(fila, 0).toString();
+                String eliminar = "DELETE FROM `servicio` WHERE Codigo = ?";
+                PreparedStatement pst = conexion.prepareStatement(eliminar);
+                pst.setString(1, Codigo);
+                pst.execute();
+                JOptionPane.showMessageDialog(null, "Venta Eliminada");
+            }catch(Exception ex)
+            {
+                JOptionPane.showMessageDialog(null, "Error de Eliminar");
+            }
+        }
+        private void MostrarVentas()
+        {
         try
         {
             
@@ -99,18 +119,84 @@ public class Sistema_venta extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, e);
         }
-    }
-        
-     
-        
-        
+        } 
+        private void BuscarDatos()
+        {
+            Connection con = null;
+
+            try {
+                con = connector.conectar();
+                ps = con.prepareStatement("Select * From productos_disponibles Where Codigo = ?");
+                ps.setString(1, Code.getText());
+
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    Producto.setSelectedItem(rs.getString("Productos"));
+                    jComboBox1.setSelectedItem(rs.getString("UOM"));
+                    Precio.setText(rs.getString("Precio"));
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "No hay nada");
+
+                }
+
+            } catch (Exception e) {
+                System.err.print(e);
+            }
+        }
+        private void DescontarCantidad()
+        {
+            try
+            {
+                String Con = "SELECT * FROM `productos_disponibles` WHERE Producto = ? ";
+                //String Consulta = "SELECT `Cantidad_disponible` FROM `productos_disponibles`" +"WHERE Producto = ?";
+                //Statement st = conexion.createStatement();
+                //ResultSet result = st.executeQuery(Consulta);
+                /*PreparedStatement st = conexion.prepareStatement();
+                st.setString(1, Producto.setSelectedItem());
+                int CantidadProducto = Integer.parseInt(.getString("Cantidad_disponible"));
                 
+                ventas NuevaVenta = new ventas();
+                NuevaVenta.setCantidad(Integer.parseInt(Cantidad.getText()));
                 
+                String Update = "UPDATE `produtos_disponibles` SET " + "Cantidad_disponible = ?";
+                PreparedStatement pst = conexion.prepareStatement(Update);
+                pst.setInt(1, CantidadProducto - NuevaVenta.getCantidad());
+                pst.execute();*/
+            }catch(Exception ex)
+            {
                 
+            }
+            
+        }
+        private void Venta()
+        {
+            try
+            {
+                Clientes NuevoCliente = new Clientes();
+                NuevoCliente.setCliente(Cliente.getText().toString());
+                NuevoCliente.setNumero(NumContacto.getText().toString());
+                NuevoCliente.setComentario(Comentario.getText().toString());
+                NuevoCliente.setForma_Pago(TipoVenta.getSelectedItem().toString());
+                NuevoCliente.setProducto(Producto.getSelectedItem().toString());
+
+                String Insert = "INSERT INTO `ventas` (`Cliente`, `Numero`, `Comentario`, `Forma_Pago`, `Producto`)" + "VALUES (?,?,?,?,?)";
+                PreparedStatement pst = conexion.prepareStatement(Insert);
+                pst.setString(1, NuevoCliente.getCliente());
+                pst.setString(2, NuevoCliente.getNumero());
+                pst.setString(3, NuevoCliente.getComentario());
+                pst.setString(4, NuevoCliente.getForma_Pago());
+                pst.setString(5, NuevoCliente.getProducto());
+                pst.execute();
                 
-  
- 
-        
+                DescontarCantidad();
+                JOptionPane.showMessageDialog(null, "Guardado Exitosamente");   
+                
+            }catch(Exception ex)
+            {
+                JOptionPane.showMessageDialog(null, "Erro de Guardado"); 
+            }
+        }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -118,7 +204,6 @@ public class Sistema_venta extends javax.swing.JFrame {
         AddActulizar = new javax.swing.JButton();
         Eliminar = new javax.swing.JButton();
         Nuevo = new javax.swing.JButton();
-        Ocultar1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         Code = new javax.swing.JTextField();
@@ -137,10 +222,10 @@ public class Sistema_venta extends javax.swing.JFrame {
         NumContacto = new javax.swing.JTextField();
         Cliente = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        Cometario = new javax.swing.JTextField();
-        Eliminar1 = new javax.swing.JButton();
+        Comentario = new javax.swing.JTextField();
+        GuardarVenta = new javax.swing.JButton();
         Eliminar2 = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        TipoVenta = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaBD = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
@@ -150,7 +235,7 @@ public class Sistema_venta extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         Otros = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        Buscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -162,18 +247,16 @@ public class Sistema_venta extends javax.swing.JFrame {
         });
 
         Eliminar.setText("Eliminar");
+        Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarActionPerformed(evt);
+            }
+        });
 
         Nuevo.setText("Nuevo");
         Nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NuevoActionPerformed(evt);
-            }
-        });
-
-        Ocultar1.setText("Ocultar");
-        Ocultar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Ocultar1ActionPerformed(evt);
             }
         });
 
@@ -212,12 +295,17 @@ public class Sistema_venta extends javax.swing.JFrame {
         jLabel9.setText("Comentario");
         jLabel9.setToolTipText("comentario");
 
-        Eliminar1.setText("Guardar");
+        GuardarVenta.setText("Guardar");
+        GuardarVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GuardarVentaActionPerformed(evt);
+            }
+        });
 
         Eliminar2.setText("Cancelar");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.setToolTipText("");
+        TipoVenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cash", "Credito" }));
+        TipoVenta.setToolTipText("");
 
         TablaBD.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -230,6 +318,11 @@ public class Sistema_venta extends javax.swing.JFrame {
 
             }
         ));
+        TablaBD.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaBDMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TablaBD);
 
         jLabel10.setText("Monto");
@@ -245,10 +338,10 @@ public class Sistema_venta extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Buscar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        Buscar.setText("Buscar");
+        Buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                BuscarActionPerformed(evt);
             }
         });
 
@@ -277,7 +370,7 @@ public class Sistema_venta extends javax.swing.JFrame {
                                 .addComponent(jLabel4))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(25, 25, 25)
-                                .addComponent(jButton2)
+                                .addComponent(Buscar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton1)))
                         .addGap(18, 18, 18)
@@ -315,11 +408,11 @@ public class Sistema_venta extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel9)
                         .addGap(18, 18, 18)
-                        .addComponent(Cometario, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Comentario, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(32, 32, 32)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TipoVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(Eliminar1)
+                        .addComponent(GuardarVenta)
                         .addGap(18, 18, 18)
                         .addComponent(Eliminar2))
                     .addGroup(layout.createSequentialGroup()
@@ -333,17 +426,11 @@ public class Sistema_venta extends javax.swing.JFrame {
                             .addComponent(jLabel12)
                             .addComponent(Total, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Ocultar1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Ocultar1)
-                .addGap(5, 5, 5)
+                .addGap(33, 33, 33)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -369,7 +456,7 @@ public class Sistema_venta extends javax.swing.JFrame {
                             .addComponent(jButton1)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)))
+                        .addComponent(Buscar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -381,10 +468,10 @@ public class Sistema_venta extends javax.swing.JFrame {
                             .addComponent(NumContacto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
-                            .addComponent(Cometario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Eliminar1)
+                            .addComponent(Comentario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(GuardarVenta)
                             .addComponent(Eliminar2)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(TipoVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -408,20 +495,14 @@ public class Sistema_venta extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_NuevoActionPerformed
 
-    private void Ocultar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Ocultar1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Ocultar1ActionPerformed
-
     private void CatálogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CatálogoActionPerformed
         Catalogo cat = new Catalogo();
         cat.setVisible(true);
     }//GEN-LAST:event_CatálogoActionPerformed
 
     private void AddActulizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActulizarActionPerformed
-        Mostra();
-        GuardarVenta();
-        
-
+    GuardarVenta();
+    MostrarVentas();
     }//GEN-LAST:event_AddActulizarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -431,34 +512,28 @@ public class Sistema_venta extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Connection con = null;
-        
-        try {
-            con = connector.conectar();
-            ps = con.prepareStatement("Select * From productos_disponibles Where Codigo = ?");
-            ps.setString(1, Code.getText());
-            
-            rs = ps.executeQuery();
-            if(rs.next()){
-                Producto.setSelectedItem(rs.getString("Productos"));
-                jComboBox1.setSelectedItem(rs.getString("UOM"));
-                Precio.setText(rs.getString("Precio"));
-                
-            } else{
-                JOptionPane.showMessageDialog(null, "No hay nada");
-            
-            }
-            
-            
-        } catch (Exception e){
-            System.err.print(e);
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
+        BuscarDatos();
+    }//GEN-LAST:event_BuscarActionPerformed
 
     private void ProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ProductoActionPerformed
+
+    private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
+        // TODO add your handling code here:
+        EliminarVentas();
+        MostrarVentas();
+    }//GEN-LAST:event_EliminarActionPerformed
+
+    private void TablaBDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaBDMouseClicked
+        // TODO add your handling code he
+    }//GEN-LAST:event_TablaBDMouseClicked
+
+    private void GuardarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarVentaActionPerformed
+        // TODO add your handling code here:
+        Venta();
+    }//GEN-LAST:event_GuardarVentaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -497,28 +572,27 @@ public class Sistema_venta extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddActulizar;
+    private javax.swing.JButton Buscar;
     private javax.swing.JTextField Cantidad;
     private javax.swing.JButton Catálogo;
     private javax.swing.JTextField Cliente;
     private javax.swing.JTextField Code;
-    private javax.swing.JTextField Cometario;
+    private javax.swing.JTextField Comentario;
     private javax.swing.JButton Eliminar;
-    private javax.swing.JButton Eliminar1;
     private javax.swing.JButton Eliminar2;
+    private javax.swing.JButton GuardarVenta;
     private javax.swing.JTextField Monto;
     private javax.swing.JTextField MontoFinal1;
     private javax.swing.JButton Nuevo;
     private javax.swing.JTextField NumContacto;
-    private javax.swing.JButton Ocultar1;
     private javax.swing.JTextField Otros;
     private javax.swing.JTextField Precio;
     private javax.swing.JComboBox<String> Producto;
     private javax.swing.JTable TablaBD;
+    private javax.swing.JComboBox<String> TipoVenta;
     private javax.swing.JTextField Total;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
