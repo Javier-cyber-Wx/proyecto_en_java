@@ -6,16 +6,13 @@ package com.mycompany.sistema_de_venta;
 
 import Conexiones.mysqlconnector;
 import Modelos.Clientes;
-import Modelos.Productos;
 import Modelos.ventas;
-import com.mysql.cj.protocol.Resultset;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -34,7 +31,7 @@ public class Sistema_venta extends javax.swing.JFrame {
      */
     public Sistema_venta() {
         initComponents();
-        MostrarVentas();
+        //MostrarVentas();
     }
     
     
@@ -46,7 +43,7 @@ public class Sistema_venta extends javax.swing.JFrame {
 
             NuevaVenta.setCodigo(Integer.parseInt(Code.getText()));
             NuevaVenta.setProducto(Producto.getSelectedItem().toString());
-            NuevaVenta.setUOM(jComboBox1.getSelectedItem().toString());
+            NuevaVenta.setUOM(UOM.getSelectedItem().toString());
             NuevaVenta.setCantidad(Integer.parseInt(Cantidad.getText()));
             NuevaVenta.setPrecio(Double.parseDouble(Precio.getText()));
             
@@ -132,7 +129,7 @@ public class Sistema_venta extends javax.swing.JFrame {
                 rs = ps.executeQuery();
                 if (rs.next()) {
                     Producto.setSelectedItem(rs.getString("Productos"));
-                    jComboBox1.setSelectedItem(rs.getString("UOM"));
+                    UOM.setSelectedItem(rs.getString("UOM"));
                     Precio.setText(rs.getString("Precio"));
 
                 } else {
@@ -144,25 +141,72 @@ public class Sistema_venta extends javax.swing.JFrame {
                 System.err.print(e);
             }
         }
+        private void Nuevo()
+        {
+            Code.setText("");
+            Producto.setSelectedItem("Selecccione");
+            UOM.setSelectedItem("Seleccione");
+            Cantidad.setText("");
+            Precio.setText("");
+            MontoFinal1.setText("");
+            Otros.setText("");
+            Total.setText("");
+            Cliente.setText("");
+            NumContacto.setText("");
+            Comentario.setText("");
+            TipoVenta.setSelectedItem("Cash");
+            
+        }
+        private void CancelarVenta()
+        {
+           try
+           {
+               TablaBD.setModel(new DefaultTableModel());
+               String eliminar = "DELETE FROM `servicio`";
+               PreparedStatement pst = conexion.prepareStatement(eliminar);
+               pst.execute();
+               JOptionPane.showMessageDialog(null, "Venta Cancelada");
+           }catch(Exception ex)
+           {
+               JOptionPane.showMessageDialog(null, "Error al Cancelar");
+           }
+        }
         private void DescontarCantidad()
         {
+            Connection con = null;
             try
             {
-                String Con = "SELECT * FROM `productos_disponibles` WHERE Producto = ? ";
+                //String Consulta = "SELECT * FROM `productos_disponibles` WHERE Producto = ? ";
                 //String Consulta = "SELECT `Cantidad_disponible` FROM `productos_disponibles`" +"WHERE Producto = ?";
                 //Statement st = conexion.createStatement();
                 //ResultSet result = st.executeQuery(Consulta);
                 /*PreparedStatement st = conexion.prepareStatement();
                 st.setString(1, Producto.setSelectedItem());
-                int CantidadProducto = Integer.parseInt(.getString("Cantidad_disponible"));
+                int CantidadProducto = Integer.parseInt(.getString("Cantidad_disponible"));*/
+                con = connector.conectar();
+                ps = con.prepareStatement("Select * From productos_disponibles Where Productos = ?");
+                ps.setString(1, Producto.getSelectedItem().toString());
+                int CantidadProducto;
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    CantidadProducto = Integer.parseInt(rs.getString("Cantidad_disponible"));
+                    ventas NuevaVenta = new ventas();
+                    NuevaVenta.setCantidad(Integer.parseInt(Cantidad.getText()));
                 
-                ventas NuevaVenta = new ventas();
-                NuevaVenta.setCantidad(Integer.parseInt(Cantidad.getText()));
-                
-                String Update = "UPDATE `produtos_disponibles` SET " + "Cantidad_disponible = ?";
-                PreparedStatement pst = conexion.prepareStatement(Update);
-                pst.setInt(1, CantidadProducto - NuevaVenta.getCantidad());
-                pst.execute();*/
+                    String Update = "UPDATE `produtos_disponibles` SET " + "`Cantidad_disponible` = ?" +"WHERE `Productos` = ?";
+                    PreparedStatement pst = conexion.prepareStatement(Update);
+                    pst.setString(1, Producto.getSelectedItem().toString());
+                    ResultSet result = pst.executeQuery();
+                    if(result.next())
+                    {
+                        pst.setInt(1, CantidadProducto - NuevaVenta.getCantidad());
+                        JOptionPane.showMessageDialog(null, CantidadProducto-NuevaVenta.getCantidad());
+                    }
+                    pst.execute();
+                } else {
+                    JOptionPane.showMessageDialog(null, "No hay nada");
+
+                }  
             }catch(Exception ex)
             {
                 
@@ -210,7 +254,7 @@ public class Sistema_venta extends javax.swing.JFrame {
         Producto = new javax.swing.JComboBox<>();
         Catálogo = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        UOM = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         Cantidad = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -224,7 +268,7 @@ public class Sistema_venta extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         Comentario = new javax.swing.JTextField();
         GuardarVenta = new javax.swing.JButton();
-        Eliminar2 = new javax.swing.JButton();
+        Cancelar = new javax.swing.JButton();
         TipoVenta = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaBD = new javax.swing.JTable();
@@ -236,6 +280,7 @@ public class Sistema_venta extends javax.swing.JFrame {
         Otros = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         Buscar = new javax.swing.JButton();
+        VentasCreadas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -280,7 +325,7 @@ public class Sistema_venta extends javax.swing.JFrame {
 
         jLabel3.setText("UOM");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "U", "Lb", "Kg", "qq" }));
+        UOM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "U", "Lb", "Kg", "qq" }));
 
         jLabel4.setText("Cantidad");
 
@@ -302,7 +347,12 @@ public class Sistema_venta extends javax.swing.JFrame {
             }
         });
 
-        Eliminar2.setText("Cancelar");
+        Cancelar.setText("Cancelar");
+        Cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarActionPerformed(evt);
+            }
+        });
 
         TipoVenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cash", "Credito" }));
         TipoVenta.setToolTipText("");
@@ -345,6 +395,13 @@ public class Sistema_venta extends javax.swing.JFrame {
             }
         });
 
+        VentasCreadas.setText("Ver Ventas");
+        VentasCreadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VentasCreadasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -365,13 +422,15 @@ public class Sistema_venta extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(UOM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel4))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(25, 25, 25)
                                 .addComponent(Buscar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(VentasCreadas)
+                                .addGap(18, 18, 18)
                                 .addComponent(jButton1)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -414,7 +473,7 @@ public class Sistema_venta extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(GuardarVenta)
                         .addGap(18, 18, 18)
-                        .addComponent(Eliminar2))
+                        .addComponent(Cancelar))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 829, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -438,7 +497,7 @@ public class Sistema_venta extends javax.swing.JFrame {
                     .addComponent(Producto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Catálogo)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(UOM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
@@ -453,7 +512,8 @@ public class Sistema_venta extends javax.swing.JFrame {
                             .addComponent(Eliminar)
                             .addComponent(Nuevo)
                             .addComponent(AddActulizar)
-                            .addComponent(jButton1)))
+                            .addComponent(jButton1)
+                            .addComponent(VentasCreadas)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(Buscar)))
@@ -470,7 +530,7 @@ public class Sistema_venta extends javax.swing.JFrame {
                             .addComponent(jLabel9)
                             .addComponent(Comentario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(GuardarVenta)
-                            .addComponent(Eliminar2)
+                            .addComponent(Cancelar)
                             .addComponent(TipoVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel10)
@@ -493,6 +553,7 @@ public class Sistema_venta extends javax.swing.JFrame {
 
     private void NuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevoActionPerformed
         // TODO add your handling code here:
+        Nuevo();
     }//GEN-LAST:event_NuevoActionPerformed
 
     private void CatálogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CatálogoActionPerformed
@@ -535,6 +596,17 @@ public class Sistema_venta extends javax.swing.JFrame {
         Venta();
     }//GEN-LAST:event_GuardarVentaActionPerformed
 
+    private void VentasCreadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VentasCreadasActionPerformed
+        // TODO add your handling code here:
+        VentasCreadas add = new VentasCreadas();
+        add.setVisible(true);
+    }//GEN-LAST:event_VentasCreadasActionPerformed
+
+    private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
+        // TODO add your handling code here:
+        CancelarVenta();
+    }//GEN-LAST:event_CancelarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -573,13 +645,13 @@ public class Sistema_venta extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddActulizar;
     private javax.swing.JButton Buscar;
+    private javax.swing.JButton Cancelar;
     private javax.swing.JTextField Cantidad;
     private javax.swing.JButton Catálogo;
     private javax.swing.JTextField Cliente;
     private javax.swing.JTextField Code;
     private javax.swing.JTextField Comentario;
     private javax.swing.JButton Eliminar;
-    private javax.swing.JButton Eliminar2;
     private javax.swing.JButton GuardarVenta;
     private javax.swing.JTextField Monto;
     private javax.swing.JTextField MontoFinal1;
@@ -591,8 +663,9 @@ public class Sistema_venta extends javax.swing.JFrame {
     private javax.swing.JTable TablaBD;
     private javax.swing.JComboBox<String> TipoVenta;
     private javax.swing.JTextField Total;
+    private javax.swing.JComboBox<String> UOM;
+    private javax.swing.JButton VentasCreadas;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

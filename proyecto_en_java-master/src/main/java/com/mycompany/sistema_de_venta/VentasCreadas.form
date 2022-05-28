@@ -50,7 +50,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="VENTAS"/>
+        <Property name="text" type="java.lang.String" value="VENTAS CREADAS"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">

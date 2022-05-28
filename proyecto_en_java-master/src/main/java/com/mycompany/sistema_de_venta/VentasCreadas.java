@@ -4,19 +4,55 @@
  */
 package com.mycompany.sistema_de_venta;
 
+import Conexiones.mysqlconnector;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author eroda
  */
 public class VentasCreadas extends javax.swing.JFrame {
+    mysqlconnector connector = new mysqlconnector();
+    Connection conexion = connector.conectar();
 
     /**
      * Creates new form VentasCreadas
      */
     public VentasCreadas() {
         initComponents();
+        MVentasCreadas();
     }
+    public void MVentasCreadas()
+    {
+        try
+        {
+            String[] titulos = {"Cliente", "Numero", "Comentario", "Forma_Pago", "Producto"};
+            String[] registros = new String[5];
+            DefaultTableModel model = new DefaultTableModel(null, titulos);
+            String Consulta = "SELECT * FROM `ventas`";
+            Statement st = conexion.createStatement();
+            ResultSet resulta = st.executeQuery(Consulta);
 
+            while (resulta.next()) {
+                registros[0] = resulta.getString(1);
+                registros[1] = resulta.getString(2);
+                registros[2] = resulta.getString(3);
+                registros[3] = resulta.getString(4);
+                registros[4] = resulta.getString(5);
+
+                model.addRow(registros);
+            }
+            VentasTable.setModel(model);
+        }catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null, "Error de visualizacion de Ventas");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,7 +68,7 @@ public class VentasCreadas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("VENTAS");
+        jLabel1.setText("VENTAS CREADAS");
 
         VentasTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -76,6 +112,7 @@ public class VentasCreadas extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+  
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
